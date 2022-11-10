@@ -21,6 +21,7 @@ class SqliteConnectionFactory {
   }
 
   Future<Database> openConnection() async {
+    // Caminho do bando de dados dentro do projeto
     var databasePath = await getDatabasesPath();
     var dataBasePathFinal = join(databasePath, _DATABASE_NAME);
 
