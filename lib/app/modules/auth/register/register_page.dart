@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list_provider/app/core/notifier/default_listener_notifier.dart';
 import 'package:todo_list_provider/app/modules/auth/register/register_controller.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -27,30 +30,42 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailEC.dispose();
     _passwordEC.dispose();
     _confirmPasswordEC.dispose();
-    context.read<RegisterController>().removeListener(() {});
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    context.read<RegisterController>().addListener(() {
-      final controller = context.read<RegisterController>();
+    final defaultListener = DefaultListenerNotifier(
+      changeNotifier: context.read<RegisterController>(),
+    );
 
-      var success = controller.success;
-      var error = controller.error;
-
-      if (success) {
+    defaultListener.listener(
+      context: context,
+      successCallback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
         Navigator.of(context).pop();
-      } else if (error != null && error.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    });
+      },
+      // Esse atributo é opcional
+      // errorCallback: (notifier, listenerInstance) => log('Deu ruim!!!'),
+    );
+    // context.read<RegisterController>().addListener(() {
+    //   final controller = context.read<RegisterController>();
+
+    //   var success = controller.success;
+    //   var error = controller.error;
+
+    //   if (success) {
+    //     Navigator.of(context).pop();
+    //   } else if (error != null && error.isNotEmpty) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         content: Text(error),
+    //         backgroundColor: Colors.red,
+    //       ),
+    //     );
+    //   }
+    // });
   }
 
   @override
