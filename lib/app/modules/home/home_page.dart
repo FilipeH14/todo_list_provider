@@ -12,7 +12,7 @@ import 'package:todo_list_provider/app/modules/tasks/tasks_module.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  void _goToCreatePage(BuildContext context) {
+  void _goToCreateTask(BuildContext context) {
     Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 400),
@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: context.primaryColor,
         child: const Icon(Icons.add),
-        onPressed: () => _goToCreatePage(context),
+        onPressed: () => _goToCreateTask(context),
       ),
     );
   }
