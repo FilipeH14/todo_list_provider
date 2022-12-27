@@ -19,10 +19,6 @@ class AppModule extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (_) => FirebaseAuth.instance),
-        // Provider(
-        //   create: (_) => SqliteMigrationFactory(),
-        //   lazy: false,
-        // ),
         Provider(
           create: (_) => SqliteConnectionFactory(),
           lazy: false,
