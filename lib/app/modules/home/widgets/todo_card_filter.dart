@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extensions.dart';
+import 'package:todo_list_provider/app/models/tasks_filter_enum.dart';
+import 'package:todo_list_provider/app/models/total_tasks_model.dart';
 
-class TodoCardFilter extends StatefulWidget {
-  const TodoCardFilter({Key? key}) : super(key: key);
+class TodoCardFilter extends StatelessWidget {
+  final String label;
+  final TasksFilterEnum taskFilter;
+  final TotalTasksModel? totalTasksModel;
+  final bool selected;
 
-  @override
-  State<TodoCardFilter> createState() => _TodoCardFilterState();
-}
+  const TodoCardFilter({
+    required this.label,
+    required this.taskFilter,
+    this.totalTasksModel,
+    required this.selected,
+    Key? key,
+  }) : super(key: key);
 
-class _TodoCardFilterState extends State<TodoCardFilter> {
+  double _getPercentFinish() {
+    final total = totalTasksModel?.totalTasks ?? 0;
+    final totalFinish = totalTasksModel?.totalTasksFinish ?? 0;
+
+    if(total == 0) return 0.0;
+
+    final percent = (totalFinish * 100) / total;
+    return percent / 100;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,24 +48,31 @@ class _TodoCardFilterState extends State<TodoCardFilter> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '10 Tasks',
+            '${totalTasksModel?.totalTasks ?? 0} Tasks',
             style: context.titleStyle.copyWith(
               fontSize: 10,
               color: Colors.white,
             ),
           ),
-          const Text(
-            'HOJE',
-            style: TextStyle(
+          Text(
+            label,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
-          LinearProgressIndicator(
-            backgroundColor: context.primaryColorLight,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-            value: .4,
+          TweenAnimationBuilder<double>(
+            tween: Tween(
+              begin: 0.0,
+              end: _getPercentFinish(),
+            ),
+            duration: const Duration(seconds: 1),
+            builder: (context, value, child) => LinearProgressIndicator(
+              backgroundColor: context.primaryColorLight,
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              value: value,
+            ),
           ),
         ],
       ),
