@@ -21,7 +21,7 @@ class TodoCardFilter extends StatelessWidget {
     final total = totalTasksModel?.totalTasks ?? 0;
     final totalFinish = totalTasksModel?.totalTasksFinish ?? 0;
 
-    if(total == 0) return 0.0;
+    if (total == 0) return 0.0;
 
     final percent = (totalFinish * 100) / total;
     return percent / 100;
@@ -37,7 +37,7 @@ class TodoCardFilter extends StatelessWidget {
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.primaryColor,
+        color: selected ? context.primaryColor : Colors.white,
         border: Border.all(
           width: 1,
           color: Colors.grey.withOpacity(.8),
@@ -51,15 +51,15 @@ class TodoCardFilter extends StatelessWidget {
             '${totalTasksModel?.totalTasks ?? 0} Tasks',
             style: context.titleStyle.copyWith(
               fontSize: 10,
-              color: Colors.white,
+              color: selected ? Colors.white : Colors.grey,
             ),
           ),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: selected ? Colors.white : Colors.black,
             ),
           ),
           TweenAnimationBuilder<double>(
@@ -69,8 +69,11 @@ class TodoCardFilter extends StatelessWidget {
             ),
             duration: const Duration(seconds: 1),
             builder: (context, value, child) => LinearProgressIndicator(
-              backgroundColor: context.primaryColorLight,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              backgroundColor:
+                  selected ? context.primaryColorLight : Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                selected ? Colors.white : context.primaryColor,
+              ),
               value: value,
             ),
           ),

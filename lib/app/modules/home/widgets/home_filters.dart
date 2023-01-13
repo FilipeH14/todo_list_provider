@@ -39,14 +39,14 @@ class HomeFilters extends StatelessWidget {
                 taskFilter: TasksFilterEnum.tomorrow,
                 selected: context.select<HomeController, TasksFilterEnum>(
                         (value) => value.filterSelected) ==
-                    TasksFilterEnum.today,
+                    TasksFilterEnum.tomorrow,
               ),
               TodoCardFilter(
                 label: 'SEMANA',
                 taskFilter: TasksFilterEnum.week,
                 selected: context.select<HomeController, TasksFilterEnum>(
                         (value) => value.filterSelected) ==
-                    TasksFilterEnum.today,
+                    TasksFilterEnum.week,
               ),
             ],
           ),

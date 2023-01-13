@@ -3,5 +3,5 @@ import 'package:todo_list_provider/app/core/notifier/default_change_notifier.dar
 import 'package:todo_list_provider/app/models/tasks_filter_enum.dart';
 
 class HomeController extends DefaultChangeNotifier {
-  var filterSelected = TasksFilterEnum.today;
+  var filterSelected = TasksFilterEnum.tomorrow;
 }
